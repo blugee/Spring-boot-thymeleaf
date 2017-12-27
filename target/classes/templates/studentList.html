@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Spring Boot Thymeleaf Hello World Example</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/css/formCss.css}" />
+<script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.4.2.min.js"></script>
+<script th:src="@{/js/dropDown.js}" type="text/javaScript"></script>
+
+</head>
+<body>
+<h2 align="center">Registered Students</h2>
+
+	
+	<div th:if="${students}">
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="form-group has-feedback">
+					<input type="text" class="form-control" placeholder="Search by First name,Last Name,Email" th:name="search" th:id="search_txt" /> 
+					<span class="glyphicon glyphicon-search form-control-feedback"></span>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<label class="control-label col-sm-3">Filter:</label>
+				<div class="col-sm-4">		
+				
+					<select class="selectpicker" th:onclick="'javascript:onChangeEvent(\'' + ${isAjax} + '\' , this.value);'">
+						<option th:value="all">All</option>
+						<option th:each="item : ${genders}" th:selected="${gender == item.toString()}" th:value="${item}"  th:text="${item.getValue()}" />
+						
+<!-- 						<c:forEach var="item" items="${genders}"> -->
+<!-- 							<option value="${item}"${gender == item.toString() ? 'selected="selected"' : ''}>${item.getValue()}</option> -->
+<!-- 						</c:forEach> -->
+					</select>
+				</div>
+			</div>
+			<a href="/registration" class="btn btn-default">Add</a>
+		</div>
+		<th:block th:include="studentDropDownList :: copy"></th:block>
+	</div>
+	
+	
+		<h5 align="center">
+			<th:block th:text = "${message}"/>
+		</h5>
+
+
+	<th:block th:unless="${students}">
+		<center>
+			<h4>No Records Found !!</h4>
+			<a href="/registration" class="btn btn-default">Add</a>
+		</center>
+	</th:block>
+
+</body>
+</html>
